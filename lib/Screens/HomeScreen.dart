@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../Models/TransactionModel.dart';
 
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Card(
@@ -60,7 +61,8 @@ class HomeScreen extends StatelessWidget {
                                 fontSize: 17
                               ),
                             ),
-                            Text(tx.date.toString(),
+                            Text(
+                              DateFormat('dd-MM-yyyy').format(tx.date),
                               style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 15
