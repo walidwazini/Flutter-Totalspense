@@ -19,6 +19,9 @@ class HomeScreen extends StatelessWidget {
     )
   ];
 
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +38,61 @@ class HomeScreen extends StatelessWidget {
                 child: Text('Chart'),
               ),
             ),
+            Card(
+              elevation: 5,
+              child: Container(
+                margin: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text('Card'),
+                    TextField(
+                      controller: _titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () => _titleController.clear(),
+                        ),
+                      ),
+                      // controller: _titleController,
+                      // onSubmitted: ,
+                    ),
+                    TextField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Amount',
+                        suffixIcon: _amountController.text.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(Icons.close),
+                                onPressed: () => _amountController.clear(),
+                              )
+                            : Container(
+                                width: 0,
+                                height: 0,
+                              ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.add),
+                      label: Text('Add Transaction'),
+                    )
+                  ],
+                ),
+              ),
+            ),
             Column(
               children: transactions.map((tx) {
                 return Card(
                   child: Row(
                     children: [
                       Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                        margin: EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 15,
+                        ),
                         child: Text(
                           ' RM ${tx.amount.toString()} ',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -57,16 +107,13 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               tx.title!,
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17
-                              ),
+                                  fontWeight: FontWeight.bold, fontSize: 17),
                             ),
                             Text(
-                              DateFormat('dd-MM-yyyy').format(tx.date),
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 15
-                              ),
+                              // DateFormat('dd-MM-yyyy').format(tx.date),
+                              DateFormat.yMMMMEEEEd().format(tx.date),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
                             )
                           ],
                           crossAxisAlignment: CrossAxisAlignment.start,
