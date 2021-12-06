@@ -4,6 +4,7 @@ import 'package:totalspense/Widgets/NewTx.dart';
 
 
 import '../Models/TxModel.dart';
+import '../Widgets/Chart.dart';
 import '../Widgets/TxList.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<TxModel> transactions = [];
+  // final List<TxModel> transactions = [];
   final List<TxModel> _userTransactions = [
     TxModel(
       id: 't1',
@@ -27,6 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
       date: DateTime.now(),
     ),
   ];
+  List<TxModel> get _last7DaysTx {
+    return _userTransactions.where((tx) {
+      final today = DateTime.now();
+      final sevenDays = Duration(days: 7);
+
+      return tx.date.isAfter(today.subtract(sevenDays));
+    }).toList();
+  }
 
   void _startAddNewTx(BuildContext ctx){
     showModalBottomSheet(context: ctx, builder: (bCtx){
@@ -66,13 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Card(
-              elevation: 10,
-              child: Container(
-                width: 200,
-                child: Text('Chart'),
-              ),
-            ),
+            Chart(recentTransactions: _last7DaysTx,),
             TransactionList(allTransactions: _userTransactions)
           ],
         ),
