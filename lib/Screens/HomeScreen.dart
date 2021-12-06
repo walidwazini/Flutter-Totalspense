@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:totalspense/Widgets/NewTx.dart';
 
 
@@ -14,6 +15,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // final List<TxModel> transactions = [];
+  final _weekDay = DateTime.now().subtract(
+    Duration(days: 7),
+  );
   final List<TxModel> _userTransactions = [
     TxModel(
       id: 't1',
@@ -51,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _addNewTx(String txTitle, double txAmount) {
     final newTx = TxModel(
-      id: Random().nextInt(5000).toString(),
+      id: DateTime.now().toString(),
       title: txTitle,
       amount: txAmount,
       date: DateTime.now(),
@@ -60,6 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
       _userTransactions.add(newTx);
     });
   }
+
+  bool counter = true;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Chart(recentTransactions: _last7DaysTx,),
-            TransactionList(allTransactions: _userTransactions)
+            TransactionList(allTransactions: _userTransactions),
+            ElevatedButton(onPressed: (){
+              print(DateFormat.E().format(_weekDay).substring(0,3));
+            }, child: Text('Test'),)
           ],
         ),
       ),
