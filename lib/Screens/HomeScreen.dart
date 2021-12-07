@@ -23,13 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
       id: 't1',
       title: 'New Shoes',
       amount: 69.20,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(Duration(days: 5)),
     ),
     TxModel(
       id: 't1',
       title: 'Beli tempeh',
       amount: 12.40,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(Duration(days: 3)),
     ),
   ];
   List<TxModel> get _last7DaysTx {
@@ -53,12 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _addNewTx(String txTitle, double txAmount) {
+  void _addNewTx(String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = TxModel(
       id: DateTime.now().toString(),
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: chosenDate,
     );
     setState(() {
       _userTransactions.add(newTx);

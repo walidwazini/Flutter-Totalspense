@@ -9,6 +9,40 @@ class TransactionList extends StatelessWidget {
 
   TransactionList({required this.allTransactions});
 
+  Widget txAmount({int? ind}) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: 15,
+      ),
+      child: Text(
+        ' RM ${allTransactions[ind!].amount.toStringAsFixed(2)} ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      padding: EdgeInsets.all(10),
+    );
+  }
+
+  Widget titleAndDate(int ind) {
+    return Container(
+      child: Column(
+        children: [
+          Text(
+            allTransactions[ind].title!,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+          ),
+          Text(
+            // DateFormat('dd-MM-yyyy').format(tx.date),
+            DateFormat.yMMMMEEEEd().format(allTransactions[ind].date),
+            style: TextStyle(color: Colors.grey, fontSize: 15),
+          )
+        ],
+        crossAxisAlignment: CrossAxisAlignment.start,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,37 +52,8 @@ class TransactionList extends StatelessWidget {
           return Card(
             child: Row(
               children: [
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 15,
-                  ),
-                  child: Text(
-                    ' RM ${allTransactions[index].amount.toStringAsFixed(2)} ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black)),
-                  padding: EdgeInsets.all(10),
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        allTransactions[index].title!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17),
-                      ),
-                      Text(
-                        // DateFormat('dd-MM-yyyy').format(tx.date),
-                        DateFormat.yMMMMEEEEd()
-                            .format(allTransactions[index].date),
-                        style: TextStyle(color: Colors.grey, fontSize: 15),
-                      )
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                  ),
-                ),
+                txAmount(ind: index),
+                titleAndDate(index),
               ],
             ),
           );
