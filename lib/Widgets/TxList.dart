@@ -6,8 +6,9 @@ import '../Models/TxModel.dart';
 class TransactionList extends StatelessWidget {
   //const TransactionList({Key? key}) : super(key: key);
   final List<TxModel> allTransactions;
+  final Function deleteTx;
 
-  TransactionList({required this.allTransactions});
+  TransactionList({required this.allTransactions, required this.deleteTx});
 
   Widget txAmount({int? ind}) {
     return Container(
@@ -36,7 +37,7 @@ class TransactionList extends StatelessWidget {
             // DateFormat('dd-MM-yyyy').format(tx.date),
             DateFormat.yMMMMEEEEd().format(allTransactions[ind].date),
             style: TextStyle(color: Colors.grey, fontSize: 15),
-          )
+          ),
         ],
         crossAxisAlignment: CrossAxisAlignment.start,
       ),
@@ -54,6 +55,12 @@ class TransactionList extends StatelessWidget {
               children: [
                 txAmount(ind: index),
                 titleAndDate(index),
+                Spacer(),
+                IconButton(
+                  onPressed: () => deleteTx(allTransactions[index].id),
+                  color: Colors.red,
+                  icon: Icon(Icons.delete,),
+                )
               ],
             ),
           );

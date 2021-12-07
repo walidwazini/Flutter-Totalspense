@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:totalspense/Widgets/NewTx.dart';
 
-
 import '../Models/TxModel.dart';
 import '../Widgets/Chart.dart';
 import '../Widgets/TxList.dart';
@@ -26,12 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
       date: DateTime.now().subtract(Duration(days: 5)),
     ),
     TxModel(
-      id: 't1',
+      id: 't2',
       title: 'Beli tempeh',
       amount: 12.40,
       date: DateTime.now().subtract(Duration(days: 3)),
     ),
   ];
+
   List<TxModel> get _last7DaysTx {
     return _userTransactions.where((tx) {
       final today = DateTime.now();
@@ -41,16 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
   }
 
-  void _startAddNewTx(BuildContext ctx){
-    showModalBottomSheet(context: ctx, builder: (bCtx){
-      return GestureDetector(
-        onTap: (){},
-        behavior: HitTestBehavior.opaque,
-        child: NewTransaction(
-          addTxHandler: _addNewTx,
-        ),
-      );
-    });
+  void _startAddNewTx(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (bCtx) {
+          return GestureDetector(
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+            child: NewTransaction(
+              addTxHandler: _addNewTx,
+            ),
+          );
+        });
   }
 
   void _addNewTx(String txTitle, double txAmount, DateTime chosenDate) {
@@ -65,7 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  bool counter = true;
+  void _deleteTx(String txId) {
+    setState(() {
+      _userTransactions.removeWhere((txToDelete) {
+        return txToDelete.id == txId;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +89,19 @@ class _HomeScreenState extends State<HomeScreen> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(recentTransactions: _last7DaysTx,),
-            TransactionList(allTransactions: _userTransactions),
-            ElevatedButton(onPressed: (){
-              print(DateFormat.E().format(_weekDay).substring(0,3));
-            }, child: Text('Test'),)
+            Chart(
+              recentTransactions: _last7DaysTx,
+            ),
+            TransactionList(
+              allTransactions: _userTransactions,
+              deleteTx: _deleteTx,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                print(DateFormat.E().format(_weekDay).substring(0, 3));
+              },
+              child: Text('Test'),
+            )
           ],
         ),
       ),
